@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.test.test"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+def support_version = '25.3.1'
+def leak_canary_version = '1.5'
+def retrofit_version = '2.2.0'
+def dagger_version = '2.9'
+def requery_version = '1.3.2'
+def moxy_version = '1.5.3'
+def stetho_version = '1.5.0'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:${support_version}"
+    compile "com.android.support:recyclerview-v7:${support_version}"
+
+    /* LeakCanary */
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
+
+    /* Dagger */
+    compile "com.google.dagger:dagger:${dagger_version}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger_version}"
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    /* Retrofit */
+    compile "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    /* RxJava */
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    /* Requery */
+    compile "io.requery:requery:${requery_version}"
+    compile "io.requery:requery-android:${requery_version}"
+    annotationProcessor "io.requery:requery-processor:${requery_version}"
+
+    /* Moxy */
+    compile "com.arello-mobile:moxy:${moxy_version}"
+    annotationProcessor "com.arello-mobile:moxy-compiler:${moxy_version}"
+    compile "com.arello-mobile:moxy-app-compat:${moxy_version}"
+
+    /* Stetho */
+    compile "com.facebook.stetho:stetho:${stetho_version}"
+    compile "com.facebook.stetho:stetho-okhttp3:${stetho_version}"
+
+
+    /* others */
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'joda-time:joda-time:2.9.9'
+
+    compile 'com.afollestad.material-dialogs:core:0.9.4.5'
+
+    compile 'ru.terrakok.cicerone:cicerone:1.2.1'
+}

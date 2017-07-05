@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">test</string>
+    <string name="connectivity_error_text">Нет подключения к интернету</string>
+    <string name="common_error_text">Произошла ошибка во время синхронизации данных</string>
+    <string name="specialties_screen_title">Специальности</string>
+    <string name="age">Возраст: %s</string>
+    <string name="workers_screen_title">Сотрудники</string>
+    <string name="worker_screen_title">Сотрудник</string>
+    <string name="no_data_text">-</string>
+    <string name="birthday">Дата рождения: %s</string>
+    <string name="empty_view_text">Пусто</string>
+    <string name="dialog_agree">OK</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="error_dialog_content">Просто ошибка</string>
+
+    <plurals name="years">
+        <item quantity="zero">лет</item>
+        <item quantity="one">год</item>
+        <item quantity="two">года</item>
+        <item quantity="few">года</item>
+        <item quantity="many">лет</item>
+        <item quantity="other">лет</item>
+    </plurals>
+</resources>
