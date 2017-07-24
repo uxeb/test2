@@ -9,25 +9,24 @@ import android.view.ViewGroup;
 import com.test.test.R;
 import com.test.test.databinding.ItemSpecialtyBinding;
 import com.test.test.domain.worker.Specialty;
+import com.test.test.presentation.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-
-public class SpecialtiesListAdapter extends RecyclerView.Adapter<SpecialtiesListAdapter.ViewHolder> {
+class SpecialtiesListAdapter
+        extends BaseRecyclerViewAdapter<SpecialtiesListAdapter.ViewHolder> {
 
     private List<Specialty> specialties;
-    private PublishSubject<Integer> onClickSubject = PublishSubject.create();
 
-    public SpecialtiesListAdapter() {
+    SpecialtiesListAdapter() {
 
     }
 
     @Override
     public SpecialtiesListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ItemSpecialtyBinding binding = DataBindingUtil.inflate(inflater, R.layout.item_specialty, parent, false);
+        ItemSpecialtyBinding binding
+                = DataBindingUtil.inflate(inflater, R.layout.item_specialty, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -39,7 +38,7 @@ public class SpecialtiesListAdapter extends RecyclerView.Adapter<SpecialtiesList
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickSubject.onNext(specialtyId);
+            onItemClick(specialtyId);
             }
         });
     }
@@ -54,13 +53,9 @@ public class SpecialtiesListAdapter extends RecyclerView.Adapter<SpecialtiesList
         notifyDataSetChanged();
     }
 
-    public Observable<Integer> getItemClicks() {
-        return onClickSubject;
-    }
-
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ItemSpecialtyBinding binding;
-        public ViewHolder(ItemSpecialtyBinding binding) {
+        ViewHolder(ItemSpecialtyBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

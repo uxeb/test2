@@ -17,16 +17,10 @@ import com.test.test.di.component.ActivityComponent;
 import com.test.test.di.component.DaggerActivityComponent;
 import com.test.test.domain.worker.Worker;
 import com.test.test.presentation.BaseActivity;
-import com.test.test.presentation.workerDetails.WorkerDetailsActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class WorkersListActivity extends BaseActivity implements WorkersListView {
     private static final String EXTRA_SPECIALTY_ID = "extra_specialty_id";
@@ -39,7 +33,6 @@ public class WorkersListActivity extends BaseActivity implements WorkersListView
     WorkersListAdapter adapter;
 
     private ActivityWorkersBinding binding;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public static Intent getCallingIntent(Context context, int specialtyId) {
         Intent intent = new Intent(context, WorkersListActivity.class);
@@ -71,8 +64,7 @@ public class WorkersListActivity extends BaseActivity implements WorkersListView
         binding.workersRV.setLayoutManager(new LinearLayoutManager(this));
         binding.workersRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.workersRV.setAdapter(adapter);
-        Disposable d = adapter.getItemClicks().subscribe(new ItemClicksConsumer());
-        compositeDisposable.add(d);
+        adapter.setItemClickListener(new WorkerClickListener());
     }
 
     private void setupActionBar() {
@@ -104,7 +96,6 @@ public class WorkersListActivity extends BaseActivity implements WorkersListView
 
     @Override
     protected void onDestroy() {
-        compositeDisposable.dispose();
         super.onDestroy();
     }
 
@@ -117,10 +108,10 @@ public class WorkersListActivity extends BaseActivity implements WorkersListView
         component.inject(this);
     }
 
-    private class ItemClicksConsumer implements Consumer<Integer> {
+    private class WorkerClickListener implements WorkersListAdapter.ItemClickListener {
         @Override
-        public void accept(@NonNull Integer itemId) throws Exception {
-            presenter.onWorkerSelected(itemId);
+        public void onItemClick(int workerId) {
+            presenter.onWorkerSelected(workerId);
         }
     }
 }

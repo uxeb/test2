@@ -17,15 +17,8 @@ import com.test.test.di.component.ActivityComponent;
 import com.test.test.di.component.DaggerActivityComponent;
 import com.test.test.domain.worker.Specialty;
 import com.test.test.presentation.BaseActivity;
-import com.test.test.presentation.workersList.WorkersListActivity;
 
 import java.util.List;
-
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-
 
 public class SpecialtiesListActivity extends BaseActivity implements SpecialtiesListView{
 
@@ -37,11 +30,9 @@ public class SpecialtiesListActivity extends BaseActivity implements Specialties
     SpecialtiesListPresenter presenter;
 
     private ActivitySpecialtiesBinding binding;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public static Intent getCallingIntent(Context context) {
-        Intent intent = new Intent(context, SpecialtiesListActivity.class);
-        return intent;
+        return new Intent(context, SpecialtiesListActivity.class);
     }
 
     @Override
@@ -54,9 +45,9 @@ public class SpecialtiesListActivity extends BaseActivity implements Specialties
         binding = DataBindingUtil.setContentView(this, R.layout.activity_specialties);
         binding.specialtiesRV.setLayoutManager(new LinearLayoutManager(this));
         binding.specialtiesRV.setAdapter(adapter);
-        binding.specialtiesRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        Disposable d = adapter.getItemClicks().subscribe(new ItemClickConsumer());
-        compositeDisposable.add(d);
+        binding.specialtiesRV
+                .addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter.setItemClickListener(new SpecialtyClickListener());
 
         if(!presenter.isInRestoreState(this)) {
             presenter.load();
@@ -66,7 +57,6 @@ public class SpecialtiesListActivity extends BaseActivity implements Specialties
 
     @Override
     protected void onDestroy() {
-        compositeDisposable.dispose();
         super.onDestroy();
     }
 
@@ -90,10 +80,10 @@ public class SpecialtiesListActivity extends BaseActivity implements Specialties
         component.inject(this);
     }
 
-    private class ItemClickConsumer implements Consumer<Integer> {
+    private class SpecialtyClickListener implements SpecialtiesListAdapter.ItemClickListener {
         @Override
-        public void accept(@NonNull Integer itemId) throws Exception {
-            presenter.onSpecialtySelected(itemId);
+        public void onItemClick(int specialtyId) {
+            presenter.onSpecialtySelected(specialtyId);
         }
     }
 }

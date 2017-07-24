@@ -11,26 +11,22 @@ import android.view.ViewGroup;
 import com.test.test.R;
 import com.test.test.databinding.ItemWorkerBinding;
 import com.test.test.domain.worker.Worker;
+import com.test.test.presentation.BaseRecyclerViewAdapter;
 import com.test.test.utils.ImageLoader;
 import com.test.test.utils.Utils;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-
-public class WorkersListAdapter extends RecyclerView.Adapter<WorkersListAdapter.ViewHolder>{
+public class WorkersListAdapter extends BaseRecyclerViewAdapter<WorkersListAdapter.ViewHolder> {
 
     private List<Worker> workers;
     private ImageLoader imageLoader;
     private Context context;
-    private PublishSubject<Integer> itemClickSubject = PublishSubject.create();
 
     @Inject
-    public WorkersListAdapter(Activity context, ImageLoader imageLoader) {
+    WorkersListAdapter(Activity context, ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
         this.context = context;
     }
@@ -70,7 +66,7 @@ public class WorkersListAdapter extends RecyclerView.Adapter<WorkersListAdapter.
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickSubject.onNext(workerId);
+                onItemClick(workerId);
             }
         });
     }
@@ -80,15 +76,12 @@ public class WorkersListAdapter extends RecyclerView.Adapter<WorkersListAdapter.
         return workers != null ? workers.size() : 0;
     }
 
-    public Observable<Integer> getItemClicks() {
-        return itemClickSubject;
-    }
-
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ItemWorkerBinding binding;
-        public ViewHolder(ItemWorkerBinding binding) {
+        ViewHolder(ItemWorkerBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
     }
+
 }
