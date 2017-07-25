@@ -16,12 +16,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.observers.DisposableObserver;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class SplashPresenter extends MvpPresenter<SplashView> {
 
     @Inject
     WorkerInteractor workerInteractor;
+
+    @Inject
+    Router router;
 
     public SplashPresenter() {
         injectDependencies();
@@ -55,12 +59,12 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
             else {
                 getViewState().showError();
             }
-            App.INSTANCE.getRouter().replaceScreen(AppNavigator.SPECIALTIES_SCREEN);
+            router.replaceScreen(AppNavigator.SPECIALTIES_SCREEN);
         }
 
         @Override
         public void onComplete() {
-            App.INSTANCE.getRouter().replaceScreen(AppNavigator.SPECIALTIES_SCREEN);
+            router.replaceScreen(AppNavigator.SPECIALTIES_SCREEN);
         }
     }
 

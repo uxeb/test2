@@ -1,14 +1,11 @@
 package com.test.test.presentation.specialty;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.test.test.di.component.DaggerWorkerComponent;
 import com.test.test.di.component.WorkerComponent;
 import com.test.test.di.module.PresenterModule;
 import com.test.test.domain.worker.Specialty;
-import com.test.test.domain.worker.Worker;
 import com.test.test.domain.worker.WorkerInteractor;
 import com.test.test.presentation.App;
 import com.test.test.presentation.AppNavigator;
@@ -19,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.observers.DisposableObserver;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class SpecialtiesListPresenter extends MvpPresenter<SpecialtiesListView> {
@@ -29,6 +27,11 @@ public class SpecialtiesListPresenter extends MvpPresenter<SpecialtiesListView> 
 
     @Inject
     ExceptionLogger logger;
+
+    @Inject
+    Router router;
+
+
 
     public SpecialtiesListPresenter() {
         injectDependencies();
@@ -45,7 +48,7 @@ public class SpecialtiesListPresenter extends MvpPresenter<SpecialtiesListView> 
     }
 
     public void onSpecialtySelected(int specialtyId) {
-        App.INSTANCE.getRouter().navigateTo(AppNavigator.WORKERS_SCREEN, specialtyId);
+        router.navigateTo(AppNavigator.WORKERS_SCREEN, specialtyId);
     }
 
     private void injectDependencies() {

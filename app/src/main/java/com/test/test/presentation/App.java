@@ -11,17 +11,10 @@ import com.test.test.di.component.AppComponent;
 import com.test.test.di.component.DaggerAppComponent;
 import com.test.test.di.module.AppModule;
 
-import java.io.InputStream;
-
-import ru.terrakok.cicerone.Cicerone;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
-
 public class App extends Application {
     private AppComponent appComponent;
 
     public static App INSTANCE;
-    private Cicerone<Router> cicerone;
 
     @Override
     public void onCreate() {
@@ -35,8 +28,6 @@ public class App extends Application {
         // Normal app init code...
 
         INSTANCE = this;
-
-        initCicerone();
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
@@ -52,18 +43,6 @@ public class App extends Application {
                     .penaltyDialog()
                     .build());
         }
-    }
-
-    private void initCicerone() {
-        cicerone = Cicerone.create();
-    }
-
-    public NavigatorHolder getNavigatorHolder() {
-        return cicerone.getNavigatorHolder();
-    }
-
-    public Router getRouter() {
-        return cicerone.getRouter();
     }
 
     public AppComponent getAppComponent() {

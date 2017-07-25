@@ -11,6 +11,9 @@ import javax.inject.Singleton;
 import dagger.Component;
 import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
+import ru.terrakok.cicerone.Cicerone;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.Router;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -23,4 +26,7 @@ public interface AppComponent {
     ReactiveEntityStore<Persistable> storage();
     ImageLoader imageLoader();
     ConnectivityChecker connectivityChecker();
+    Cicerone<Router> provideCicerone();
+    Router provideRouter();
+    NavigatorHolder provideNavigatorHolder();
 }

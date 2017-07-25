@@ -9,6 +9,10 @@ import com.test.test.R;
 import com.test.test.di.component.AppComponent;
 import com.test.test.di.module.ActivityModule;
 
+import javax.inject.Inject;
+
+import ru.terrakok.cicerone.NavigatorHolder;
+
 public abstract class BaseActivity extends MvpAppCompatActivity {
 
     public AppComponent getAppComponent() {
@@ -19,6 +23,9 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
         return new ActivityModule(this);
     }
 
+    @Inject
+    NavigatorHolder navigatorHolder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +35,13 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        App.INSTANCE.getNavigatorHolder().setNavigator(new AppNavigator(this));
+        navigatorHolder.setNavigator(new AppNavigator(this));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        App.INSTANCE.getNavigatorHolder().removeNavigator();
+        navigatorHolder.removeNavigator();
     }
 
     public void showError() {

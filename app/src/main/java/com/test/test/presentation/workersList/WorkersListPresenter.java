@@ -16,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.observers.DisposableObserver;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class WorkersListPresenter extends MvpPresenter<WorkersListView> {
@@ -25,6 +26,9 @@ public class WorkersListPresenter extends MvpPresenter<WorkersListView> {
 
     @Inject
     ExceptionLogger logger;
+
+    @Inject
+    Router router;
 
     public WorkersListPresenter() {
         injectDependencies();
@@ -36,7 +40,7 @@ public class WorkersListPresenter extends MvpPresenter<WorkersListView> {
     }
 
     public void onWorkerSelected(int workerId) {
-        App.INSTANCE.getRouter().navigateTo(AppNavigator.WORKER_SCREEN, workerId);
+        router.navigateTo(AppNavigator.WORKER_SCREEN, workerId);
     }
 
     @Override

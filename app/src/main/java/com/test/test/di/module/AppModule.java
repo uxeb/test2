@@ -21,6 +21,9 @@ import dagger.Module;
 import dagger.Provides;
 import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
+import ru.terrakok.cicerone.Cicerone;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.Router;
 
 @Module
 public class AppModule {
@@ -71,5 +74,23 @@ public class AppModule {
     ConnectivityChecker provideConnectivityChecker() {
         return new AndroidConnectivityChecker(
                 (ConnectivityManager) app.getSystemService(Context.CONNECTIVITY_SERVICE));
+    }
+
+    @Provides
+    @Singleton
+    Cicerone<Router> provideCicerone() {
+        return Cicerone.create();
+    }
+
+    @Provides
+    @Singleton
+    Router provideRouter(Cicerone<Router> cicerone) {
+        return cicerone.getRouter();
+    }
+
+    @Provides
+    @Singleton
+    NavigatorHolder provideNavigatorHolder(Cicerone<Router> cicerone) {
+        return cicerone.getNavigatorHolder();
     }
 }
